@@ -33,7 +33,7 @@ export function HomePage() {
     <div className="relative flex flex-row-reverse not-lg:flex-col justify-between items-center h-screen w-full">
         <div className="flex flex-col lg:w-[50%] not-lg:h-full items-center justify-center">
             <div className="flex flex-col gap-3 w-[500px] not-lg:w-full not-lg:px-10">
-                <span className="text-3xl">Joki Tugas Unity</span>
+                <span className="title">Joki Tugas Unity</span>
                 <p>{slogan}</p>
                 <div className="flex felx-row gap-3">
                     <a href={contact_redirect} className="button button-shade">HUBUNGI KAMI</a>
@@ -59,7 +59,7 @@ export function ProductPage() {
         return <>
         <div className="flex flex-col w-[350px] not-lg:w-full items-center gap-2">
             <img src={img} alt="" className="h-[100px] not-lg:h-[100px] object-contain" />
-            <span>{label??"Label"}</span>
+            <span className="font-semibold">{label??"Label"}</span>
             <p className="max-h-[100px] overflow-y-auto text-center">{children}</p>
         </div>
         </>
@@ -67,7 +67,7 @@ export function ProductPage() {
 
     return <>
     <div className="flex flex-col lg:justify-evenly gap-10 items-center w-full lg:h-screen p-10 lg:p-32">
-        <span className="text-3xl pb-10 text-center">Games yang kami Tawarkan</span>
+        <span className="title pb-10 text-center">Games yang kami Tawarkan</span>
         <div className="flex flex-row not-lg:flex-col w-full lg:justify-evenly not-lg:gap-10">
             <Item label="Android AR" img="/joki-unity/icons/ar.png">Implementasi teknologi Augmented Reality (AR) di perangkat Android. Proyek mencakup pelacakan gambar/permukaan, integrasi Unity AR Foundation, dan rendering objek 3D di dunia nyata. Sempurna untuk tugas inovatif.</Item>
             <Item label="Android VR" img="/joki-unity/icons/vr.png">Pembuatan pengalaman Virtual Reality (VR) yang imersif dan optimal untuk perangkat Android (misalnya Google Cardboard atau headset mobile). Fokus pada interaksi 3D, navigasi, dan performa tinggi.</Item>
@@ -91,7 +91,7 @@ export function PricingPage() {
     }) {
         return <>
         <div className="bg-panel p-8 w-[500px] not-lg:h-[400px] h-[300px] not-lg:w-full shadow-2xl flex flex-col justify-between rounded-md">
-            <span className="text-2xl">{title??"Title"}</span>
+            <span className="text-2xl font-semibold">{title??"Title"}</span>
             <div className="flex flex-col border-t border-gray-600 py-2 h-[120px] not-lg:h-[200px] overflow-y-auto">
                 {features?.map((item, index) => (
                     <div key={index} className="flex flex-row gap-3">
@@ -113,7 +113,7 @@ export function PricingPage() {
 
     return <>
     <div className="lg:h-screen flex flex-col gap-10 items-ed lg:justify-evenly p-10">
-        <span className="text-3xl pb-10 text-center">Harga Bisa di Nego</span>
+        <span className="title pb-10 text-center">Harga Bisa di Nego</span>
         <div className="flex flex-row not-lg:flex-col w-full lg:justify-evenly items-center not-lg:gap-10">
             <Item price="120.000" title="AR" features={[
                 {label: "5 Object AR", mark: true},
