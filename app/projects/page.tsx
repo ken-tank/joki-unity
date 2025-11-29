@@ -43,7 +43,7 @@ export default function Projects() {
             active_page.current = v-1;
         }
 
-        fetch("../data.csv")
+        fetch("/joki-unity/data.csv")
         .then(result => result.text())
         .then(text => {
             Papa.parse(text, {
@@ -119,10 +119,10 @@ export default function Projects() {
         const label = data?.name||"No Name";
         const imgData = data?.thumbnail||undefined;
         const platformIcon: { [key: string]: string} = {
-            'Windows': "/joki-page/icons/platform/windows.png",
-            'Android': "/joki-page/icons/platform/android.png",
-            'WebGL': "/joki-page/icons/platform/webgl.png",
-            'Linux': "/joki-page/icons/platform/linux.png",
+            'Windows': "/joki-unity/icons/platform/windows.png",
+            'Android': "/joki-unity/icons/platform/android.png",
+            'WebGL': "/joki-unity/icons/platform/webgl.png",
+            'Linux': "/joki-unity/icons/platform/linux.png",
         }
         const platforms = data?.platform.map(x => platformIcon[x]);
         return <>

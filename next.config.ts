@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   output: "export",
   trailingSlash: true,
-  basePath: "/ken-tank.github.io/joki-page",
+  basePath: "/joki-unity",
 };
 
 export default nextConfig;

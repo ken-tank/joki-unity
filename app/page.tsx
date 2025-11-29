@@ -69,14 +69,14 @@ export function ProductPage() {
     <div className="flex flex-col lg:justify-evenly gap-10 items-center w-full lg:h-screen p-10 lg:p-32">
         <span className="text-3xl pb-10 text-center">Games yang kami Tawarkan</span>
         <div className="flex flex-row not-lg:flex-col w-full lg:justify-evenly not-lg:gap-10">
-            <Item label="Android AR" img="/joki-page/icons/ar.png">Implementasi teknologi Augmented Reality (AR) di perangkat Android. Proyek mencakup pelacakan gambar/permukaan, integrasi Unity AR Foundation, dan rendering objek 3D di dunia nyata. Sempurna untuk tugas inovatif.</Item>
-            <Item label="Android VR" img="/joki-page/icons/vr.png">Pembuatan pengalaman Virtual Reality (VR) yang imersif dan optimal untuk perangkat Android (misalnya Google Cardboard atau headset mobile). Fokus pada interaksi 3D, navigasi, dan performa tinggi.</Item>
-            <Item label="Puzzle" img="/joki-page/icons/puzzle.png">Pengembangan game puzzle yang menantang dan logis. Kami membuat mekanisme unik, sistem leveling progresif, dan desain antarmuka yang intuitif. Cocok untuk menguji kemampuan logika pemrograman.</Item>
+            <Item label="Android AR" img="/joki-unity/icons/ar.png">Implementasi teknologi Augmented Reality (AR) di perangkat Android. Proyek mencakup pelacakan gambar/permukaan, integrasi Unity AR Foundation, dan rendering objek 3D di dunia nyata. Sempurna untuk tugas inovatif.</Item>
+            <Item label="Android VR" img="/joki-unity/icons/vr.png">Pembuatan pengalaman Virtual Reality (VR) yang imersif dan optimal untuk perangkat Android (misalnya Google Cardboard atau headset mobile). Fokus pada interaksi 3D, navigasi, dan performa tinggi.</Item>
+            <Item label="Puzzle" img="/joki-unity/icons/puzzle.png">Pengembangan game puzzle yang menantang dan logis. Kami membuat mekanisme unik, sistem leveling progresif, dan desain antarmuka yang intuitif. Cocok untuk menguji kemampuan logika pemrograman.</Item>
         </div>
         <div className="flex flex-row not-lg:flex-col w-full lg:justify-evenly not-lg:gap-10">
-            <Item label="2D Games" img="/joki-page/icons/2d.png">Pengembangan game platformer, side-scroller, atau top-down 2D. Proyek mencakup sistem sprite animation, fisika 2D, tilemaps, dan desain level yang mendalam. Cepat selesai dengan kualitas terbaik.</Item>
-            <Item label="3D Games" img="/joki-page/icons/3d.png">Pembuatan game dengan lingkungan tiga dimensi yang kompleks. Meliputi desain level 3D, implementasi mekanik kamera, sistem pathfinding AI, dan rendering grafis yang optimal.</Item>
-            <Item label="First Person" img="/joki-page/icons/first person.png">Pengembangan game sudut pandang orang pertama (First Person Shooter atau FPP). Termasuk sistem senjata, kontrol karakter yang realistis, raycasting, dan implementasi AI musuh yang dinamis.</Item>
+            <Item label="2D Games" img="/joki-unity/icons/2d.png">Pengembangan game platformer, side-scroller, atau top-down 2D. Proyek mencakup sistem sprite animation, fisika 2D, tilemaps, dan desain level yang mendalam. Cepat selesai dengan kualitas terbaik.</Item>
+            <Item label="3D Games" img="/joki-unity/icons/3d.png">Pembuatan game dengan lingkungan tiga dimensi yang kompleks. Meliputi desain level 3D, implementasi mekanik kamera, sistem pathfinding AI, dan rendering grafis yang optimal.</Item>
+            <Item label="First Person" img="/joki-unity/icons/first person.png">Pengembangan game sudut pandang orang pertama (First Person Shooter atau FPP). Termasuk sistem senjata, kontrol karakter yang realistis, raycasting, dan implementasi AI musuh yang dinamis.</Item>
         </div>
     </div>
     </>
