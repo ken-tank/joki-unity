@@ -5,6 +5,7 @@ import Papa from 'papaparse';
 import { Row } from "../api/data_parsing";
 import { ProjectCard } from "./_components/_components";
 import { contact_redirect } from "../page";
+import { useRouter } from "next/router";
 
 export function Header({title, action}: {
     title?: React.ReactElement,
@@ -42,7 +43,7 @@ export default function Projects() {
             active_page.current = v-1;
         }
 
-        fetch("/joki-page/data.csv")
+        fetch("../data.csv")
         .then(result => result.text())
         .then(text => {
             Papa.parse(text, {
