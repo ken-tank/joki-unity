@@ -2,6 +2,7 @@ import Papa from "papaparse";
 
 export interface Row {
     id: string,
+    visibility: boolean,
     name: string,
     platform: string[],
     target_platform: string,
@@ -33,4 +34,19 @@ export async function GetData(id: string): Promise<Row|null> {
         console.log(err);
         return null;
     }
+}
+
+export function TransformField(value: string, field: string | number) {
+    if (value != undefined 
+      && field === "platform" 
+      || field === "input_control" 
+      || field === "dependencies"
+    ){
+      return value.split(',').map(item => item.trim()).filter(x => x != "").sort();
+    } else if(value != undefined
+      && field === "visibility"
+    ){
+      return value.toLowerCase() === "true" ? true : false;
+    }
+    else return value;
 }

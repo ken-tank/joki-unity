@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import Papa from 'papaparse';
-import { Row } from "../api/data_parsing";
+import { Row, TransformField } from "../api/data_parsing";
 import { ProjectCard } from "./_components/_components";
 import { contact_redirect } from "../page";
 
@@ -49,16 +49,13 @@ export default function Projects() {
                 header: true,
                 skipEmptyLines: true,
                 transform(value, field) {
-                    if (value != undefined && field === "platform" || field === "input_control" || field === "dependencies"){
-                    return value.split(',').map(item => item.trim()).filter(x => x != "").sort().reverse();
-                    }
-                    else return value;
+                    return TransformField(value, field);
                 },
                 complete: (result) => {
                     if (result.errors.length > 0) {
                         setError(result.errors[0].message);
                     } else {
-                        const resultData = result.data as Row[];
+                        const resultData = (result.data as Row[]).filter(x => x.visibility == true);
                         totalPage.current = resultData.length;
                         const startIndex = Math.max(0, max_item * active_page.current);
                         const stopIndex = startIndex + max_item;
