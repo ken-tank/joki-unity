@@ -92,8 +92,8 @@ export default function Projects() {
             if (more) page_total += 1;
             return <>
             <div className="flex flex-row justify-center items-center pb-10 gap-2 scale-80 not-lg:scale-70">
-                {active_page.current > 0 ? <a href={`./?page=1`} className="button">First</a> : <></>}
-                {active_page.current > 0 ? <a href={`./?page=${active_page.current}`} className="button">{"<"}</a> : <></>}
+                {active_page.current > 0 ? <a href={`/joki-unity/projects?page=1`} className="button">First</a> : <></>}
+                {active_page.current > 0 ? <a href={`/joki-unity/projects?page=${active_page.current}`} className="button">{"<"}</a> : <></>}
                 {Array.from({length: page_total}).map((_, index) => (
                     <a key={index} href={`/joki-unity/projects?page=${index+1}`}
                     className={
@@ -104,8 +104,8 @@ export default function Projects() {
                         {index + 1}
                     </a>
                 ))}
-                {active_page.current+1 < page_total ? <a href={`./?page=${active_page.current+2}`} className="button">{">"}</a> : <></>}
-                {active_page.current+1 < page_total ? <a href={`./?page=${page_total}`} className="button">Last</a> : <></>}
+                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${active_page.current+2}`} className="button">{">"}</a> : <></>}
+                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${page_total}`} className="button">Last</a> : <></>}
             </div>
             </>
         }
