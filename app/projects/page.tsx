@@ -5,7 +5,6 @@ import Papa from 'papaparse';
 import { Row } from "../api/data_parsing";
 import { ProjectCard } from "./_components/_components";
 import { contact_redirect } from "../page";
-import { useRouter } from "next/router";
 
 export function Header({title, action}: {
     title?: React.ReactElement,
@@ -154,7 +153,7 @@ export default function Projects() {
     <div className="flex flex-col w-full h-screen">
         <Header 
             title={<>
-                <a href="../" className="font-bold">{"<"}</a>
+                <a href="/joki-unity" className="font-bold">{"<"}</a>
                 <h1>Project List</h1>
             </>}
         />
