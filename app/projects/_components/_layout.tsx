@@ -43,7 +43,9 @@ export function ProjectInfo({ data }: {
                     </div>
                 </ItemValue>
                 <ItemValue label="Target Platform">
-                    <p className="item-type">{data.target_platform}</p>
+                    <div className="w-min">
+                        <p className="item-type">{data.target_platform}</p>
+                    </div>
                 </ItemValue>
                 {data.input_control.length > 0
                 ? <ItemValue label="Support Input">

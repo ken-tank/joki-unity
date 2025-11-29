@@ -137,7 +137,7 @@ export default function Projects() {
                         <div>
                             <a href={url??""}>Lihat Semua...</a>
                         </div>
-                        <div className="flex flex-row gap-2 h-full">
+                        <div className="flex flex-row gap-2 h-full not-lg:hidden">
                             {platforms?.map((item, index) => (
                                 item != "" ? <img key={index} src={item} alt="" className="aspect-square h-[24px]" /> : <></>
                             ))}
