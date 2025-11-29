@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: #1D2026;
+  --color-panel: #2C3039;
+  --color-header: var(--color-white);
+  --color-paragraph: var(--color-neutral-400);
+  --color-list: var(--color-neutral-400);
+  --color-primary: #006ace;
+  --color-secondary: #3B404C;
+  --color-tag: var(--color-blue-300);
+  --color-alert: var(--color-yellow-500);
+  --color-warning: var(--color-red-600);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@utility button {
+  @apply cursor-pointer bg-primary py-2 px-4 rounded-md font-medium text-gray-200 hover:scale-105 duration-200 ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility button-shade {
+  @apply bg-linear-to-r from-primary to-[#0077e6];
+}
+
+@utility item-type {
+  @apply px-1 py-0.5 border border-green-700 bg-green-800 font-normal text-xs text-green-300;
+}
+
+@utility link {
+  @apply text-emerald-300 hover:underline duration-200;
+}
+
+@utility card {
+  @apply bg-panel p-5 rounded-md shadow-xl flex flex-col gap-3 text-neutral-300;
+}
+
+@layer base {
+  html {
+    @apply w-screen h-screen flex justify-center text-header font-sans;
+  }
+  
+  body {
+    @apply w-full min-h-full flex flex-col bg-background;
+  }
+
+  h1 {
+    @apply font-bold text-lg;
+  }
+
+  p { 
+    @apply text-paragraph;
+  }
+
+  button {
+    @apply button;
+  }
+
+  ul {
+      @apply list-disc pl-5;
+  }
+
+  li {
+      @apply border-l border-neutral-500 pl-1 mb-2 text-wrap text-list;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  
 }
