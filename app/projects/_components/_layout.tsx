@@ -245,7 +245,9 @@ export function ProjectDownloader({ data }: {
 
     async function DecryptLink(from?:string, password?:string) {
         try {
-            if (key.current) key.current.disabled = true;
+            if (key.current == undefined) return;
+            key.current.disabled = true;
+            console.log(key.current.value + " " + sc);
             const result = await decryptAESGCM(from??"", password??"");
             setMsg(undefined);
             window.open(result, '_blank');
