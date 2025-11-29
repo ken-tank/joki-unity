@@ -95,7 +95,7 @@ export default function Projects() {
                 {active_page.current > 0 ? <a href={`./?page=1`} className="button">First</a> : <></>}
                 {active_page.current > 0 ? <a href={`./?page=${active_page.current}`} className="button">{"<"}</a> : <></>}
                 {Array.from({length: page_total}).map((_, index) => (
-                    <a key={index} href={`./?page=${index+1}`}
+                    <a key={index} href={`/joki-unity/projects?page=${index+1}`}
                     className={
                         "button" +
                         (index === active_page.current ? " brightness-130 -translate-y-1" : " brightness-100")
@@ -115,7 +115,7 @@ export default function Projects() {
     function Item({data}:{
         data?: Row
     }) {
-        const url = "./" + data?.id||"404";
+        const url = "/joki-unity/projects/" + data?.id||"404";
         const label = data?.name||"No Name";
         const imgData = data?.thumbnail||undefined;
         const platformIcon: { [key: string]: string} = {
