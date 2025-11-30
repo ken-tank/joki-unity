@@ -71,11 +71,18 @@ export default function Projects() {
     },[])
 
     function DataRender() {
+        
+        function Cell({index}: {index:number}) {
+            const data: Row | undefined = renderData.current[index];
+            if (data == undefined) return <div></div>
+            else return <Item data={data}/>
+        }
+
         if (loading) return <div>Loading...</div>
         else if (error != undefined) return <div>{error}</div>
         else return <>
-        {renderData.current.map((item, index) => (
-            <Item key={index} data={item} />
+        {Array.from({length: max_item}).map((_, index) => (
+            <Cell key={index} index={index}/>
         ))}
         </>
     }
@@ -88,8 +95,8 @@ export default function Projects() {
             if (more) page_total += 1;
             return <>
             <div className="flex flex-row justify-center items-center lg:pb-10 gap-2 scale-80 not-lg:scale-70">
-                {active_page.current > 0 ? <a href={`/joki-unity/projects?page=1`} className="button">First</a> : <></>}
-                {active_page.current > 0 ? <a href={`/joki-unity/projects?page=${active_page.current}`} className="button">{"<"}</a> : <></>}
+                {active_page.current > 0 ? <a href={`/joki-unity/projects?page=1`} className="button bg-secondary">First</a> : <></>}
+                {active_page.current > 0 ? <a href={`/joki-unity/projects?page=${active_page.current}`} className="button bg-secondary">{"<"}</a> : <></>}
                 {Array.from({length: page_total}).map((_, index) => (
                     <a key={index} href={`/joki-unity/projects?page=${index+1}`}
                     className={
@@ -100,8 +107,8 @@ export default function Projects() {
                         {index + 1}
                     </a>
                 ))}
-                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${active_page.current+2}`} className="button">{">"}</a> : <></>}
-                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${page_total}`} className="button">Last</a> : <></>}
+                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${active_page.current+2}`} className="button bg-secondary">{">"}</a> : <></>}
+                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${page_total}`} className="button bg-secondary">Last</a> : <></>}
             </div>
             </>
         }
@@ -157,7 +164,7 @@ export default function Projects() {
         <div className="flex flex-row not-lg:flex-col lg:grow lg:justify-between items-center lg:overflow-hidden">
             <div className="flex flex-col not-lg:flex-col-reverse lg:grow lg:h-full not-lg:w-full overflow-y-auto">
                 <div className="lg:grow p-10 not-lg:p-5">
-                    <div className="grid grid-cols-4 not-lg:grid-cols-2 place-self-auto place-items-center gap-10 not-lg:gap-5">
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] not-lg:grid-cols-[repeat(auto-fit,minmax(100px,1fr))] place-self-auto place-items-center gap-10 not-lg:gap-5">
                         <DataRender/>
                     </div>
                 </div>
