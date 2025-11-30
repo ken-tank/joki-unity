@@ -13,8 +13,7 @@ export async function generateMetadata({params}: {params: {id:string}}): Promise
         openGraph: {
             title: row.name,
             images: row.thumbnail,
-            url: row.video,
-            videos: row.video,
+            url: row.meta_url
         },
     };
 }

@@ -10,6 +10,7 @@ export interface Row {
     description: string,
     thumbnail: string,
     video: string,
+    meta_url: string,
     sc: string,
     unity_version: string,
     dependencies: string[]
