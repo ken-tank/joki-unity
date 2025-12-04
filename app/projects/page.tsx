@@ -27,6 +27,7 @@ export default function Projects() {
     const active_page = useRef(0);
     const renderData = useRef<Row[]>([]);
     const totalPage = useRef(0);
+    const page_total = useRef(0);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string|undefined>();
@@ -38,8 +39,13 @@ export default function Projects() {
         const parms = new URLSearchParams(window.location.search);
         const parms_page = parms.get("page");
         if (parms_page) {
-            const v = Math.max(0, parseInt(parms_page));
-            active_page.current = v-1;
+            if (parms_page.toLowerCase() === "last") {
+                active_page.current = 9999;
+            }
+            else {
+                const v = Math.max(0, parseInt(parms_page));
+                active_page.current = v-1;
+            }
         }
 
         fetch("/joki-unity/data.csv")
@@ -57,9 +63,14 @@ export default function Projects() {
                     } else {
                         const resultData = (result.data as Row[]).filter(x => x.visibility == true);
                         totalPage.current = resultData.length;
+                        page_total.current = Math.floor(totalPage.current/max_item);
+                        const more = totalPage.current%max_item > 0;
+                        if (more) page_total.current += 1;
+                        active_page.current = Math.min(page_total.current - 1, active_page.current);
                         const startIndex = Math.max(0, max_item * active_page.current);
                         const stopIndex = startIndex + max_item;
                         renderData.current = resultData.slice(startIndex, stopIndex);
+                        console.log(active_page.current);
                     }
                     setLoading(false);
                 }
@@ -90,14 +101,11 @@ export default function Projects() {
     function CreatePagination() {
         if (loading && error == undefined) return <span>...</span>;
         else if (totalPage.current > 1) {
-            let page_total = Math.floor(totalPage.current/max_item);
-            const more = totalPage.current%max_item > 0;
-            if (more) page_total += 1;
             return <>
             <div className="flex flex-row justify-center items-center lg:pb-10 gap-2 scale-80 not-lg:scale-70">
                 {active_page.current > 0 ? <a href={`/joki-unity/projects?page=1`} className="button bg-secondary">First</a> : <></>}
                 {active_page.current > 0 ? <a href={`/joki-unity/projects?page=${active_page.current}`} className="button bg-secondary">{"<"}</a> : <></>}
-                {Array.from({length: page_total}).map((_, index) => (
+                {Array.from({length: page_total.current}).map((_, index) => (
                     <a key={index} href={`/joki-unity/projects?page=${index+1}`}
                     className={
                         "button" +
@@ -107,8 +115,8 @@ export default function Projects() {
                         {index + 1}
                     </a>
                 ))}
-                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${active_page.current+2}`} className="button bg-secondary">{">"}</a> : <></>}
-                {active_page.current+1 < page_total ? <a href={`/joki-unity/projects?page=${page_total}`} className="button bg-secondary">Last</a> : <></>}
+                {active_page.current+1 < page_total.current ? <a href={`/joki-unity/projects?page=${active_page.current+2}`} className="button bg-secondary">{">"}</a> : <></>}
+                {active_page.current+1 < page_total.current ? <a href={`/joki-unity/projects?page=${page_total}`} className="button bg-secondary">Last</a> : <></>}
             </div>
             </>
         }
