@@ -35,16 +35,16 @@ export function ProjectInfo({ data }: {
                 <ItemValue label="Unity Version">
                     <p>{data.unity_version}</p>
                 </ItemValue>
+                <ItemValue label="Project Platform">
+                    <div className="w-min">
+                        <p className="item-type">{data.target_platform}</p>
+                    </div>
+                </ItemValue>
                 <ItemValue label="Support Platform">
                     <div className="flex flex-row flex-wrap gap-1">
                         {data?.platform.map((item, index) => (
                             <p className="item-type" key={index}>{item}</p>
                         ))}
-                    </div>
-                </ItemValue>
-                <ItemValue label="Target Platform">
-                    <div className="w-min">
-                        <p className="item-type">{data.target_platform}</p>
                     </div>
                 </ItemValue>
                 {data.input_control.length > 0
