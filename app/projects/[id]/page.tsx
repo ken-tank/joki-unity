@@ -1,4 +1,4 @@
-import { ProjectCard } from "../_components/_components";
+import { ProjectCard, VersionLog } from "../_components/_components";
 import { ProjectDownloader, ProjectHeader, ProjectInfo, ProjectMoto, ProjectMyAds, ProjectRequiretment, ProjectSourceCode } from "../_components/_layout";
 import { data } from "./data";
 
@@ -20,6 +20,22 @@ export default async function Index({params}: {params: {id:string}}) {
                 </div>
                 <ProjectRequiretment data={row} />
                 <ProjectSourceCode />
+                <ProjectCard title="Update Log" className="shrink-0">
+                    <ul>
+                        <li className="text-gray-300">
+                            <VersionLog name="1.1.0" changelog={[
+                                "Add Sound",
+                                "Fix some Bug"
+                            ]} />
+                        </li>
+                        <li className="text-gray-300">
+                            <VersionLog name="1.0.0" changelog={[
+                                "First Release",
+                                "New File"
+                            ]} />
+                        </li>
+                    </ul>
+                </ProjectCard>
                 <ProjectMoto />
             </div>
             <div className="flex flex-col shrink-0 lg:h-full overflow-y-auto lg:w-[500px] gap-5 pt-10 pr-10 pb-10 not-lg:p-5">

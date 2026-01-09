@@ -23,3 +23,19 @@ export function ItemValue({label, children}: {
         </div>
     </div>
 }
+
+export function VersionLog({name, changelog}: {
+    name: string,
+    changelog: string[]
+}) {
+    return <div>
+        <span>{name}</span>
+        <ul>
+            {changelog.map((val, i) => (
+                <li key={i}>
+                    {val}
+                </li>
+            ))}
+        </ul>
+    </div>
+}
