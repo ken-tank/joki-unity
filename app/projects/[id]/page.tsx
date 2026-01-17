@@ -20,7 +20,7 @@ export default async function Index({params}: {params: {id:string}}) {
                 </div>
                 <ProjectRequiretment data={row} />
                 <ProjectSourceCode />
-                <ProjectCard title="Update Log" className="shrink-0">
+                <ProjectCard title="Update Log" className="shrink-0 hidden">
                     <ul>
                         <li className="text-gray-300">
                             <VersionLog name="1.1.0" changelog={[
