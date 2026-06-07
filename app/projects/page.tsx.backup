@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from "react"
-import { DB2Project, Project, Row, TransformField } from "../api/data_parsing";
+import Papa from 'papaparse';
+import { Row, TransformField } from "../api/data_parsing";
 import { ProjectCard } from "./_components/_components";
 import { contact_redirect } from "../page";
-import initSqlJs from "sql.js";
 
 export function Header({title, action}: {
     title?: React.ReactElement,
@@ -25,7 +25,7 @@ export function Header({title, action}: {
 export default function Projects() {
     
     const active_page = useRef(0);
-    const renderData = useRef<Project[]>([]);
+    const renderData = useRef<Row[]>([]);
     const totalPage = useRef(0);
     const page_total = useRef(0);
 
@@ -35,30 +35,6 @@ export default function Projects() {
     const max_item = 8;
 
     useEffect(() => {
-        
-        async function init() {
-            const sql = await initSqlJs({
-                locateFile: () => "/joki-unity/sql-wasm.wasm"
-            });
-            const data = await fetch("/joki-unity/data.db");
-            const data_buffer = await data.arrayBuffer();
-            const data_uint8 = new Uint8Array(data_buffer);
-            const db = new sql.Database(data_uint8);
-
-            totalPage.current = db.exec("select count(*) from projects where visibility = 1")[0].values[0][0] as number;
-            page_total.current = Math.floor(totalPage.current/max_item);
-            const more = totalPage.current%max_item > 0;
-            if (more) page_total.current += 1;
-            active_page.current = Math.min(page_total.current - 1, active_page.current);
-            const startIndex = Math.max(0, max_item * active_page.current);
-            const resultData = db.exec("select * from projects where visibility = 1 limit :limit offset :offset", {
-                ':limit': max_item,
-                ':offset': startIndex
-            }).flatMap(x => x.values.map(y => DB2Project(y)));
-            renderData.current = resultData;
-            db.close();
-            setLoading(false);
-        }
 
         const parms = new URLSearchParams(window.location.search);
         const parms_page = parms.get("page");
@@ -72,13 +48,43 @@ export default function Projects() {
             }
         }
 
-        init();
+        fetch("/joki-unity/data.csv")
+        .then(result => result.text())
+        .then(text => {
+            Papa.parse(text, {
+                header: true,
+                skipEmptyLines: true,
+                transform(value, field) {
+                    return TransformField(value, field);
+                },
+                complete: (result) => {
+                    if (result.errors.length > 0) {
+                        setError(result.errors[0].message);
+                    } else {
+                        const resultData = (result.data as Row[]).filter(x => x.visibility == true);
+                        totalPage.current = resultData.length;
+                        page_total.current = Math.floor(totalPage.current/max_item);
+                        const more = totalPage.current%max_item > 0;
+                        if (more) page_total.current += 1;
+                        active_page.current = Math.min(page_total.current - 1, active_page.current);
+                        const startIndex = Math.max(0, max_item * active_page.current);
+                        const stopIndex = startIndex + max_item;
+                        renderData.current = resultData.slice(startIndex, stopIndex);
+                        console.log(active_page.current);
+                    }
+                    setLoading(false);
+                }
+            })
+        })
+        .catch(error => {
+            console.log(error);
+        })
     },[])
 
     function DataRender() {
         
         function Cell({index}: {index:number}) {
-            const data: Project | undefined = renderData.current[index];
+            const data: Row | undefined = renderData.current[index];
             if (data == undefined) return <div></div>
             else return <Item data={data}/>
         }
@@ -118,9 +124,9 @@ export default function Projects() {
     }
 
     function Item({data}:{
-        data?: Project
+        data?: Row
     }) {
-        const url = "/joki-unity/projects/" + data?.path||"404";
+        const url = "/joki-unity/projects/" + data?.id||"404";
         const label = data?.name||"No Name";
         const imgData = data?.thumbnail||undefined;
         const platformIcon: { [key: string]: string} = {

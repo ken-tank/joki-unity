@@ -1,41 +1,14 @@
-import initSqlJs from "sql.js";
 import { ProjectCard, VersionLog } from "../_components/_components";
 import { ProjectDownloader, ProjectHeader, ProjectInfo, ProjectMoto, ProjectMyAds, ProjectRequiretment, ProjectSourceCode } from "../_components/_layout";
-import path from "path";
-import { DB2Project, Project } from "@/app/api/data_parsing";
-import { readFileSync } from "fs";
-import { cache } from "react";
-
-const getProjects = cache(async (): Promise<Project[]> => {
-    const sql = await initSqlJs({
-        locateFile: () => path.join(process.cwd(), "public", "sql-wasm.wasm"),
-    });
-
-    const b_buffer = readFileSync(path.join(process.cwd(), "public", "data.db"));
-    const b_uint8 = new Uint8Array(b_buffer);
-    const db = new sql.Database(b_uint8);
-    
-    const projects = db.exec("select * from projects").flatMap(x => x.values.map(y => DB2Project(y)));
-    
-    db.close();
-    return projects;
-});
+import { data } from "./data";
 
 export async function generateStaticParams() {
-    const allProjects = await getProjects();
-    return allProjects.map(x => ({
-        id: x.path
-    }));
+    return data.map(p => ({id: p.id}));
 }
 
-interface PageProps {
-    params: Promise<{ id: string }>;
-}
-
-export default async function Index({params}: PageProps) {
+export default async function Index({params}: {params: {id:string}}) {
     const wraped = await params;
-    const allProjects = await getProjects();
-    const row = allProjects.find(x => x.path === wraped.id)
+    const row = data.find(x => x.id === wraped.id)
     return <>
     <div className="flex flex-col w-full h-screen">
         <ProjectHeader name={row?.name || "No Name"} />

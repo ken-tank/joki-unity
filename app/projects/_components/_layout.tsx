@@ -1,6 +1,6 @@
 'use client'
 
-import { Row } from "@/app/api/data_parsing";
+import { Project, Row } from "@/app/api/data_parsing";
 import { Header } from "../page";
 import { ItemValue, ProjectCard } from "./_components";
 import { decryptAESGCM } from "@/app/api/aes";
@@ -17,7 +17,7 @@ export function ProjectHeader({ name }: {
     />
 }
 
-export function ProjectInfo({ data }: {
+export function ProjectInfo_old({ data }: {
     data?: Row
 }) {
     if (data == undefined) return <></>
@@ -72,8 +72,117 @@ export function ProjectInfo({ data }: {
     </div>
 }
 
-export function ProjectRequiretment({ data }: {
+export function ProjectInfo({ data }: {
+    data?: Project
+}) {
+    if (data == undefined) return <></>
+    return <div className="flex shrink-0 flex-row-reverse not-lg:flex-col w-full justify-between gap-5">
+        <div className="grow">
+            <ProjectCard title="Informasi Project" className="lg:h-[494px]">
+                <ItemValue label="Nama">
+                    <p>{data?.name}</p>
+                </ItemValue>
+                <ItemValue label="Deskripsi">
+                    <p className="max-h-[200px] not-lg:max-h-[250px] overflow-y-auto">
+                        {data?.description || "-"}
+                    </p>
+                </ItemValue>
+                <ItemValue label="Unity Version">
+                    <p>{data.unity_version}</p>
+                </ItemValue>
+                <ItemValue label="Project Platform">
+                    <div className="w-min">
+                        <p className="item-type">{data.target_platform}</p>
+                    </div>
+                </ItemValue>
+                <ItemValue label="Support Platform">
+                    <div className="flex flex-row flex-wrap gap-1">
+                        {data?.platform.map((item, index) => (
+                            <p className="item-type" key={index}>{item}</p>
+                        ))}
+                    </div>
+                </ItemValue>
+                {data.input_control.length > 0
+                ? <ItemValue label="Support Input">
+                    <div className="flex flex-row flex-wrap gap-1">
+                        {data?.input_control.map((item, index) => (
+                            <p className="item-type bg-orange-900 border-orange-700 text-orange-300" key={index}>{item}</p>
+                        ))}
+                    </div>
+                </ItemValue>
+                : <></>}
+            </ProjectCard>
+        </div>
+        <div className="lg:h-[494px]">
+            <ProjectCard title="Video Demo">
+                {data?.video != "" ? <iframe className="aspect-video lg:w-[720px]"
+                    title="YouTube video player"
+                    src={data?.video}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen={true}
+                    referrerPolicy="strict-origin-when-cross-origin"
+                /> : <div className="w-[720px] h-full">Tidak ada Video</div>}
+            </ProjectCard>
+        </div>
+    </div>
+}
+
+export function ProjectRequiretment_old({ data }: {
     data?: Row
+}) {
+    return <div className="flex shrink-0 flex-row-reverse not-lg:flex-col w-full justify-between gap-5">
+        <div className="grow flex flex-col lg:h-[494px] justify-between gap-5">
+            <ProjectCard title="Syarat Project" className="grow">
+                <p>Sebelum Membuka Project harap untuk memenuhi syarat2 berikut ini:</p>
+                <ul className="text-list">
+                    <li>
+                        <span className="link">Koneksi Internet</span> sangat wajib
+                    </li>
+                    <li>
+                        Tentu saja sudah Install <a className="link" href="https://unity.com/download" target="_blank">
+                            Unity {data?.unity_version}
+                        </a>
+                    </li>
+                    {data?.dependencies.find(x => x === "7zip") != null ? <li>
+                        <a className="link" href="https://7-zip.org/download.html" target="_blank">7zip</a> Untuk Extract Project
+                    </li> : <></>}
+                    {data?.dependencies.find(x => x === "git") != null ? <li>
+                        <a className="link" href="https://git-scm.com/downloads/win" target="_blank">GitHub Command Line</a> Untuk menginstall dependencies external
+                    </li> : <></>}
+                    {data?.dependencies.find(x => x === "fmod") != null ? <li>
+                        <span className="text-tag">(Opsional)</span><br />
+                        <a className="link" href="https://www.fmod.com/download#fmodstudio" target="_blank">FMOD Studio 2.03</a> Jika ingin edit audionya sendiri
+                        <br /><span className="text-alert">(Memerlukan Pemahaman dasar tentang audio)</span>
+                    </li> : <></>}
+                </ul>
+            </ProjectCard>
+            <ProjectCard title="Cara Membuka Project" className="grow">
+                <ul>
+                    <li>Extract File 7z yang ada di folder Project</li>
+                    <li>Buka Unity Hub</li>
+                    <li>{"Klik Add > Add project from disk"}</li>
+                    <li>Arahkan Ke Folder Hasil Extract Tadi</li>
+                    <li>Setelah Project Berhasil terbuka,</li>
+                    <li>Buka Folder Scene</li>
+                    <li>Klik 2x salah satu scene yang tersedia</li>
+                </ul>
+            </ProjectCard>
+        </div>
+        <div>
+            <ProjectCard title="Video Cara Membuka Project">
+                <iframe className="aspect-video lg:w-[720px]"
+                    title="YouTube video player"
+                    src="https://www.youtube.com/embed/KF7S33FTgfQ"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen={true}
+                    referrerPolicy="strict-origin-when-cross-origin"
+                />
+            </ProjectCard>
+        </div>
+    </div>
+}
+export function ProjectRequiretment({ data }: {
+    data?: Project
 }) {
     return <div className="flex shrink-0 flex-row-reverse not-lg:flex-col w-full justify-between gap-5">
         <div className="grow flex flex-col lg:h-[494px] justify-between gap-5">
@@ -235,8 +344,48 @@ export function ProjectSourceCode() {
     </div>
 }
 
-export function ProjectDownloader({ data }: {
+export function ProjectDownloader_old({ data }: {
     data?: Row
+}) {
+    const key = useRef<HTMLInputElement>(null);
+    const sc = data?.sc??"null";
+
+    const [msg, setMsg] = useState<string>();
+
+    async function DecryptLink(from?:string, password?:string) {
+        try {
+            if (key.current == undefined) return;
+            key.current.disabled = true;
+            console.log(key.current.value + " " + sc);
+            const result = await decryptAESGCM(from??"", password??"");
+            setMsg(undefined);
+            window.open(result, '_blank');
+        } catch(ex) {
+            setMsg("Key Invalid or Wrong!")
+        } finally {
+            if (key.current) {
+                key.current.value = "";
+                key.current.disabled = false;
+            }
+        }
+    }
+    
+    return <div>
+        <ProjectCard title="Download Source Code">
+            <p>Silahkan Dowload Source Codenya dengan klik Tombol di bawah ini, dengan key yang telah kami berikan sebelumnya</p>
+            <span className="text-warning">{msg}</span>
+            <div className="flex flex-row not-sm:justify-between w-full gap-1">
+                <div className="border border-gray-500 flex flex-row items-center p-1 rounded-md grow">
+                    <input ref={key} type="password" placeholder="Unlock Key"
+                        className="outline-none size-full" />
+                </div>
+                <button className="button hover:scale-100" onClick={() => DecryptLink(sc, key.current?.value)}>Download</button>
+            </div>
+        </ProjectCard>
+    </div>
+}
+export function ProjectDownloader({ data }: {
+    data?: Project
 }) {
     const key = useRef<HTMLInputElement>(null);
     const sc = data?.sc??"null";

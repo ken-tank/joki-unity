@@ -1,5 +1,8 @@
 import Papa from "papaparse";
+import { deprecate } from "util";
+import { SqlValue } from "sql.js";
 
+[deprecate]
 export interface Row {
     id: string,
     visibility: boolean,
@@ -14,6 +17,42 @@ export interface Row {
     sc: string,
     unity_version: string,
     dependencies: string[]
+}
+
+export interface Project {
+    id: number;
+    path: string;
+    name: string;
+    //visibility: boolean;
+    platform: string[];
+    target_platform: string;
+    input_control: string[];
+    description: string;
+    thumbnail: string;
+    video: string;
+    meta_url: string;
+    sc: string;
+    unity_version: string;
+    dependencies: string[];
+}
+
+export function DB2Project(values: SqlValue[]) {
+    return {
+        id: values[0] as number,
+        path: values[1] as string,
+        name: values[2] as string,
+        //visibility: (values[3] as number) === 1,
+        platform: (values[4] as string).split(",").map(x => x.trim()).filter(x => x !== ""),
+        target_platform: values[5] as string,
+        input_control: (values[6] as string).split(",").map(x => x.trim()).filter(x => x !== ""),
+        description: values[7] as string,
+        thumbnail: values[8] as string,
+        video: values[9] as string,
+        meta_url: values[10] as string,
+        sc: values[11] as string,
+        unity_version: values[12] as string,
+        dependencies: (values[13] as string).split(",").map(x => x.trim()).filter(x => x !== ""),
+    }
 }
 
 export async function GetData(id: string): Promise<Row|null> {
