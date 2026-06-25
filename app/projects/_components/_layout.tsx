@@ -117,7 +117,7 @@ export function ProjectInfo({ data }: {
             <ProjectCard title="Video Demo">
                 {data?.video != "" ? <iframe className="aspect-video lg:w-[720px]"
                     title="YouTube video player"
-                    src={data?.video}
+                    src={data.yt_id ? `https://www.youtube.com/embed/${data.yt_id}` : undefined}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen={true}
                     referrerPolicy="strict-origin-when-cross-origin"

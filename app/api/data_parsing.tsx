@@ -31,6 +31,7 @@ export interface Project {
     thumbnail: string;
     video: string;
     meta_url: string;
+    yt_id: string,
     sc: string;
     unity_version: string;
     dependencies: string[];
@@ -49,9 +50,10 @@ export function DB2Project(values: SqlValue[]) {
         thumbnail: values[8] as string,
         video: values[9] as string,
         meta_url: values[10] as string,
-        sc: values[11] as string,
-        unity_version: values[12] as string,
-        dependencies: (values[13] as string).split(",").map(x => x.trim()).filter(x => x !== ""),
+        yt_id: values[11] as string,
+        sc: values[12] as string,
+        unity_version: values[13] as string,
+        dependencies: (values[14] as string).split(",").map(x => x.trim()).filter(x => x !== ""),
     }
 }
 

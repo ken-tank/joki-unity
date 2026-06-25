@@ -6,6 +6,7 @@ import { readFileSync } from "fs";
 import { cache } from "react";
 import { DB2Project, Project } from "@/app/api/data_parsing";
 
+
 const getProjects = cache(async (): Promise<Project[]> => {
     const sql = await initSqlJs({
         locateFile: () => path.join(process.cwd(), "public", "sql-wasm.wasm"),
@@ -38,8 +39,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: row.name,
         openGraph: {
             title: row.name,
-            images: row.thumbnail || "", 
-            url: row.meta_url || ""
+            images: row.yt_id ? `https://img.youtube.com/vi/${row.yt_id}/sddefault.jpg` : undefined,
+            videos: row.yt_id ? `https://www.youtube.com/watch?v=${row.yt_id}` :  undefined,
+            url: `https://ken-tank.github.io/joki-unity/projects/${row.path}`,
+            siteName: "KenTank Joki Project",
         },
     };
 }
